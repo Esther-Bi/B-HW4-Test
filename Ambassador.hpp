@@ -17,7 +17,7 @@ namespace coup{
         public:
             Ambassador(coup::Game & game , string name);
             static void transfer(coup::Player & from, coup::Player & to);
-            static void block(coup::Captain & other);
+            static void block(coup::Player & other);
             ~Ambassador();
 
     };

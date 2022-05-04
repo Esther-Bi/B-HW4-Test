@@ -15,7 +15,7 @@ namespace coup
         int x=mag;
     }
 
-    void Ambassador::block(coup::Captain & other){
+    void Ambassador::block(coup::Player & other){
         int x=mag;
     }
 

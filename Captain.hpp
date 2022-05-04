@@ -16,7 +16,7 @@ namespace coup{
         public:
             Captain(coup::Game & game , string name);
             static void steal(coup::Player & other);
-            static void block(coup::Captain & other);
+            static void block(coup::Player & other);
             ~Captain();
 
     };

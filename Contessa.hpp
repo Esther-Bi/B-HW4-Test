@@ -16,7 +16,7 @@ namespace coup{
             int p_role;
         public:
             Contessa(coup::Game & game , string name);
-            static void block(coup::Assassin & other);
+            static void block(coup::Player & other);
             ~Contessa();
 
     };

@@ -11,7 +11,7 @@ namespace coup
         this->p_role = CO;
     }
 
-    void Contessa::block(coup::Assassin & other){
+    void Contessa::block(coup::Player & other){
         int x=mag;
     }
 
