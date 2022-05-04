@@ -10,8 +10,6 @@ using namespace std;
 
 namespace coup{
 
-    const int for_update = 2000
-
     const int mag = 8;
 
     const int INCOME = 1;
