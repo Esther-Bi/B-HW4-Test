@@ -52,9 +52,9 @@ TEST_CASE("Build New Game with 1 player Or More Than 6 players") {
 	Captain captain2{game_3, "p6"};
 	try{ // add more than 6 players
 		Ambassador ambassador{game_3, "too many"};
-		CHECK_EQ(true,true);
-	} catch(...){
 		CHECK_EQ(true,false);
+	} catch(...){
+		CHECK_EQ(true,true);
 	}
 }
 
@@ -81,9 +81,9 @@ TEST_CASE("Add Player In Middle Of Game") {
 	duke.income();
 	try{
 		Ambassador ambassador{game_5, "game already started"};
-		CHECK_EQ(true,true);
-	} catch(...){
 		CHECK_EQ(true,false);
+	} catch(...){
+		CHECK_EQ(true,true);
 	}
 }
 
@@ -148,18 +148,25 @@ TEST_CASE("Winner") {
 	Captain captain{game_8, "Reut"};
 	Contessa contessa{game_8, "Gilad"};
 
-	for (int i=0 ; i<15 ; i++){
+	for (int i=0 ; i<7 ; i++){
 		duke.income();
 		assassin.income();
 		ambassador.income();
 		captain.income();
 		contessa.income();
 	}
-	// each one has 15 coins, enough for using coup() twice
+	// each one has 7 coins, enough for using coup()
 	duke.coup(assassin);
 	ambassador.coup(contessa);
 	captain.coup(ambassador);
+
+	for (int i=0 ; i<7 ; i++){
+		duke.income();
+		captain.income();
+	}
+	// each one has 7 coins, enough for using coup()
 	duke.coup(captain);
+
 	CHECK_EQ(game_8.winner(),"Duke"); // the only one to stay in gane
 
 }
@@ -182,14 +189,14 @@ TEST_CASE("Special Coins Abilities") {
 	// each one has 9 coins
 	CHECK_NOTHROW(duke.tax()); // add 3 coins
 	CHECK_EQ(duke.coins(),12);
-	CHECK_NOTHROW(assassin.coup(contessa)); // loss of 3 coins
-	CHECK_EQ(assassin.coins(),6);
+	CHECK_NOTHROW(assassin.coup(contessa)); // loss of 7 coins
+	CHECK_EQ(assassin.coins(),3);
 	CHECK_NOTHROW(ambassador.transfer(captain,duke)); // transfer coins
 	CHECK_EQ(captain.coins(),8);
 	CHECK_EQ(duke.coins(),13);
 	CHECK_NOTHROW(captain.steal(assassin)); // steal coins
 	CHECK_EQ(captain.coins(),10);
-	CHECK_EQ(assassin.coins(),4);
+	CHECK_EQ(assassin.coins(),1);
 }
 
 TEST_CASE("Not his turn and Coup when more than 10 coins") {
@@ -231,35 +238,29 @@ TEST_CASE("Block") {
 	Captain captain2{game_11, "Reut2"};
 	Contessa contessa{game_11, "Gilad"};
 
-	for (int i=0 ; i<9 ; i++){
+	for (int i=0 ; i<6 ; i++){
 		assassin.income();
 		duke.income();
 		assassin2.income();
 		ambassador.income();
 		captain.income();
-		captain2.income();
 		contessa.income();
 	}
-	// each one has 9 coins
-	assassin.foreign_aid(); // assassin 11
-	duke.block(assassin); // assassin 9
-	duke.tax(); //duke 12
-	assassin2.coup(ambassador); // assassin2 6
+	// each one has 6 coins
+	assassin.foreign_aid(); // assassin 8
+	duke.block(assassin); // assassin 6
+	duke.tax(); //duke 9
+	assassin2.coup(ambassador); // assassin2 3
 	contessa.block(assassin2);
-	ambassador.transfer(assassin,contessa); // assassin 8, contessa 10
-	captain.steal(contessa); // contessa 8
-	ambassador.block(captain); // contessa 10
-	captain2.coup(assassin2); // captain2 2
-	contessa.coup(duke); // contessa 3
-	ambassador.income(); // ambassador 10
-	captain.steal(contessa); // contessa 1
-	captain2.block(captain); // contessa 3
+	ambassador.transfer(assassin,contessa); // assassin 5, contessa 7
+	captain.steal(contessa); // contessa 5, captain 8
+	ambassador.block(captain); // contessa 7, captain 6
+	contessa.coup(duke); // contessa 0
 
-	CHECK_EQ(assassin.coins(),8);
-	CHECK_EQ(ambassador.coins(),10);
-	CHECK_EQ(captain.coins(),9);
-	CHECK_EQ(captain2.coins(),2);
-	CHECK_EQ(contessa.coins(),3);
+	CHECK_EQ(assassin.coins(),5);
+	CHECK_EQ(ambassador.coins(),6);
+	CHECK_EQ(captain.coins(),6);
+	CHECK_EQ(contessa.coins(),0);
 }
 
 TEST_CASE("steal or transfer when other have not enough coins, coup when player have not enough coins") {
@@ -275,13 +276,12 @@ TEST_CASE("steal or transfer when other have not enough coins, coup when player 
 	duke.tax();
 	CHECK_THROWS(ambassador.transfer(captain, duke));
 	ambassador.transfer(duke, contessa);
-	CHECK_THROWS(captain.steal(contessa));
-	captain.steal(duke);
+	captain.steal(contessa);
 	contessa.income();
 
 	CHECK_EQ(assassin.coins(),1);
+	CHECK_EQ(duke.coins(),2);
 	CHECK_EQ(ambassador.coins(),0);
-	CHECK_EQ(captain.coins(),2);
-	CHECK_EQ(duke.coins(),0);
-	CHECK_EQ(contessa.coins(),2);
+	CHECK_EQ(captain.coins(),1);
+	CHECK_EQ(contessa.coins(),1);
 }
