@@ -246,17 +246,17 @@ TEST_CASE("Block") {
 		contessa.income();
 	}
 	// each one has 6 coins
-	assassin.foreign_aid(); // assassin 8
-	duke.block(assassin); // assassin 6
+	assassin.coup(ambassador); // assassin 3
+	contessa.block(assassin);
 	duke.tax(); //duke 9
-	assassin2.coup(ambassador); // assassin2 3
-	contessa.block(assassin2);
-	ambassador.transfer(assassin,contessa); // assassin 5, contessa 7
+	assassin2.foreign_aid(); // assassin2 8
+	duke.block(assassin2); // assassin2 6
+	ambassador.transfer(assassin,contessa); // assassin 2, contessa 7
 	captain.steal(contessa); // contessa 5, captain 8
 	ambassador.block(captain); // contessa 7, captain 6
 	contessa.coup(duke); // contessa 0
 
-	CHECK_EQ(assassin.coins(),5);
+	CHECK_EQ(assassin.coins(),2);
 	CHECK_EQ(ambassador.coins(),6);
 	CHECK_EQ(captain.coins(),6);
 	CHECK_EQ(contessa.coins(),0);
