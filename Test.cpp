@@ -167,7 +167,7 @@ TEST_CASE("Winner") {
 	// each one has 7 coins, enough for using coup()
 	duke.coup(captain);
 
-	CHECK_EQ(game_8.winner(),"Duke"); // the only one to stay in gane
+	CHECK_EQ(game_8.winner(),"Moshe"); // the only one to stay in gane
 
 }
 
@@ -190,13 +190,13 @@ TEST_CASE("Special Coins Abilities") {
 	CHECK_NOTHROW(duke.tax()); // add 3 coins
 	CHECK_EQ(duke.coins(),12);
 	CHECK_NOTHROW(assassin.coup(contessa)); // loss of 7 coins
-	CHECK_EQ(assassin.coins(),3);
+	CHECK_EQ(assassin.coins(),2);
 	CHECK_NOTHROW(ambassador.transfer(captain,duke)); // transfer coins
 	CHECK_EQ(captain.coins(),8);
 	CHECK_EQ(duke.coins(),13);
 	CHECK_NOTHROW(captain.steal(assassin)); // steal coins
 	CHECK_EQ(captain.coins(),10);
-	CHECK_EQ(assassin.coins(),1);
+	CHECK_EQ(assassin.coins(),0);
 }
 
 TEST_CASE("Not his turn and Coup when more than 10 coins") {
@@ -235,7 +235,6 @@ TEST_CASE("Block") {
 	Assassin assassin2{game_11, "Yossi"};
 	Ambassador ambassador{game_11, "Meirav"};
 	Captain captain{game_11, "Reut"};
-	Captain captain2{game_11, "Reut2"};
 	Contessa contessa{game_11, "Gilad"};
 
 	for (int i=0 ; i<6 ; i++){
