@@ -119,7 +119,6 @@ TEST_CASE("Coins") {
 	CHECK_EQ(duke.coins(),10);
 	CHECK_EQ(assassin.coins(),11);
 	CHECK_EQ(ambassador.coins(),2);
-	CHECK_EQ(captain.coins(),10);
 	CHECK_EQ(contessa.coins(),2);	
 }
 
